@@ -9,18 +9,24 @@
 def main():
     gene_list = read_genes()
     results = []
+    print(gene_list)
     for i in gene_list:
-        results.append(find_secondary_structure("GGGTCGTTAGCTCAGTTGGTAGAGCAATTGACTTTTAATCAATTGGTCGCAGGTTCGAATCCTGCACGACCCACCA"))
+        results.append(find_secondary_structure("GGGUCGUUAGCUCAGUUGGUAGAGCAAUUGACUUUUAAUCAAUUGGUCGCAGGUUCGAAUCCUGCACGACCCACCA"))
     #write_alignments(results)
    
 #################################################################################
  
 # This reads genes from "FinalProject.txt" and stores them
 def read_genes():
+    # File that contains FASTA formatted sequences
     database = "FinalProject.txt"
-    gene_count = 0
+
+    # Declare variables
+    gene_count = 0  # NOTE FOR ANDREW: is this necessary?
     gene_list = []
-    current_gene = ""
+    current_gene = []
+
+    # Iterate through each line of the file and store the sequences
     with open(database) as fp:
         line = fp.readline()
         while line:
@@ -36,9 +42,11 @@ def read_genes():
             else:
                 current_gene += line
                 line = fp.readline()
-        gene_list.append(current_gene)
-    for i in gene_list:
-        i.replace('T', 'U')
+        # Change all Ts in the sequences to Us
+        for i in range(len(current_gene)):
+            if current_gene[i] == 'T':
+                current_gene[i] = 'U'
+        gene_list.append("".join(current_gene))
     return gene_list
 
 # This function finds the secondary structure of an RNA sequence
@@ -116,7 +124,7 @@ def find_secondary_structure(gene):
             j -= 1
         else:
             if (len(d_stem) == 3):
-                break;
+                break
             i = temp_i
             j = temp_j - reset_count
             d_stem = []
@@ -170,9 +178,9 @@ def find_secondary_structure(gene):
 # this is a "lazy" match function which we'll improve upon
 def match(i, j): # we're temporarily working with sequences with T's instead of U's --> we can easily change this later
     if i == 'A':
-        if j == 'T':
+        if j == 'U':
             return True
-    if i == 'T':
+    if i == 'U':
         if j == 'A':
             return True
     if i == 'C':
