@@ -70,7 +70,7 @@ def find_secondary_structure(gene):
 
     while(i < 7):
         if match(gene[i], gene[j]):
-            pair = [gene[i], gene[j]]
+            pair = [gene[i], gene[j], i, j]
             a_stem.append(pair)
             i += 1
             j -= 1
@@ -91,7 +91,7 @@ def find_secondary_structure(gene):
     reset_count = 1
     while(len(t_stem) < 5):
         if match(gene[i], gene[j]):
-            pair = [gene[i], gene[j]]
+            pair = [gene[i], gene[j], i, j]
             t_stem.append(pair)
             i -= 1
             j += 1
@@ -100,13 +100,13 @@ def find_secondary_structure(gene):
             j = temp_j + reset_count
             t_stem = []
             reset_count += 1
-    t_loop = ""
+    t_loop = []
     v_max = j - 6
     while (j <= i):
-        t_loop += gene[j]
+        t_loop.append([gene[j], j])
         j += 1
     print("T STEM: " + str(t_stem))
-    print("T LOOP: " + t_loop)
+    print("T LOOP: " + str(t_loop))
 
 ################################D STEM & D LOOP#################################
 
@@ -118,7 +118,7 @@ def find_secondary_structure(gene):
     reset_count = 1
     while(len(d_stem) < 4):
         if match(gene[i], gene[j]):
-            pair = [gene[i], gene[j]]
+            pair = [gene[i], gene[j], i, j]
             d_stem.append(pair)
             i += 1
             j -= 1
@@ -129,12 +129,12 @@ def find_secondary_structure(gene):
             j = temp_j - reset_count
             d_stem = []
             reset_count += 1
-            d_loop = ""
+    d_loop = []
     while (i <= j):
-        d_loop += gene[i]
+        d_loop.append([gene[i], i])
         i += 1
     print("D STEM: " + str(d_stem))
-    print("D LOOP: " + d_loop)
+    print("D LOOP: " + str(d_loop))
 
 ########################ANTICODON STEM & ANTICODON LOOP#########################
 
@@ -146,7 +146,7 @@ def find_secondary_structure(gene):
     reset_count = 1
     while(len(anticodon_stem) < 5):
         if match(gene[i], gene[j]):
-            pair = [gene[i], gene[j]]
+            pair = [gene[i], gene[j], i, j]
             anticodon_stem.append(pair)
             i += 1
             j -= 1
@@ -156,21 +156,21 @@ def find_secondary_structure(gene):
             anticodon_stem = []
             reset_count += 1
     print (anticodon_stem)
-    anticodon_loop = ""
+    anticodon_loop = []
     while (i <= j):
-        anticodon_loop += gene[i]
+        anticodon_loop.append([gene[i], i])
         i += 1
     print("ANTICODON STEM: " + str(anticodon_stem))
-    print("ANTICODON LOOP: " + anticodon_loop)
+    print("ANTICODON LOOP: " + str(anticodon_loop))
 
 #####################################V LOOP#####################################
 
-    v_loop = ""
+    v_loop = []
     j += 6
     while (j <= v_max):
-        v_loop += gene[j]
+        v_loop.append([gene[j], j])
         j += 1
-    print("V LOOP: " + v_loop)
+    print("V LOOP: " + str(v_loop))
     return t_stem # we'll just return this for now
 
 #################################################################################
