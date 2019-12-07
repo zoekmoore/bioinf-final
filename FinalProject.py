@@ -175,7 +175,7 @@ def find_secondary_structure(gene):
     print("V LOOP: " + str(v_loop))
 
     # Call a function to reformat the structure
-    result = reformat(gene, a_stem, t_stem, d_stem, anticodon_stem, t_loop, d_loop, anticodon_loop, v_loop)
+    outputResults(gene, a_stem, t_stem, d_stem, anticodon_stem, t_loop, d_loop, anticodon_loop, v_loop)
 
     return t_stem # we'll just return this for now
 
@@ -199,7 +199,7 @@ def match(i, j): # we're temporarily working with sequences with T's instead of 
 
 #################################################################################
 
-def reformat(sequence, a_stem, t_stem, d_stem, anticodon_stem, t_loop, d_loop, anticodon_loop, v_loop):
+def outputResults(sequence, a_stem, t_stem, d_stem, anticodon_stem, t_loop, d_loop, anticodon_loop, v_loop):
     
     indexCount = 0
 
