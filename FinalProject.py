@@ -348,8 +348,16 @@ def reformat(sequence, a_stem, t_stem, d_stem, anticodon_stem, t_loop, d_loop, a
         style15 += '.'
         indexCount += 1
 
+    # Print Key
+    print("\033[1;37;40m KEY: \033[0m")
+    print("\t\033[1;35;40m" + "A Stem" + "\033[0m")
+    print("\t\033[1;32;40m" + "D Stem" + "\033[0m")
+    print("\t\033[1;31;40m" + "Anticodon Stem" + "\033[0m")
+    print("\t\033[1;34;40m" + "T Stem" + "\033[0m")
+    print("\tLoops & Etc.\n\n")
     # Print color-coded nucleotides
-    print("\033[1;35;40m" + nucleo1 + "\033[0m" +
+    print("\033[1;37;40m SEQUENCE: \033[0m")
+    print("  \033[1;35;40m" + nucleo1 + "\033[0m" +
     nucleo2 + 
     "\033[1;32;40m" + nucleo3 + "\033[0m"  + nucleo4 + "\033[1;32;40m" + nucleo5 + "\033[0m" +
     nucleo6 +
@@ -359,7 +367,8 @@ def reformat(sequence, a_stem, t_stem, d_stem, anticodon_stem, t_loop, d_loop, a
     "\033[1;35;40m" + nucleo14 + "\033[0m" +
     nucleo15)
     # Print color-coded match/mismatch stylization
-    print("\033[1;35;40m" + style1 + "\033[0m" +
+    print("\033[1;37;40m FOLDING: \033[0m")
+    print("  \033[1;35;40m" + style1 + "\033[0m" +
     style2 + 
     "\033[1;32;40m" + style3 + "\033[0m"  + style4 + "\033[1;32;40m" + style5 + "\033[0m" +
     style6 +
