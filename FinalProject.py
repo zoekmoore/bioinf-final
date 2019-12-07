@@ -62,6 +62,8 @@ def find_secondary_structure(gene):
     d_loop_length = [4, 11]
 
 #####################################A STEM#####################################
+    # TODO: we'll need some way to indicate that there is a mismatch in what we're
+    # saving in the stem information
 
     a_stem = []
     i = 0
@@ -172,7 +174,7 @@ def find_secondary_structure(gene):
     print("V LOOP: " + str(v_loop))
 
     # Call a function to reformat the structure
-    result = reformat(a_stem, t_stem, d_stem, anticodon_stem, t_loop, d_loop, anticodon_loop, v_loop)
+    result = reformat(gene, a_stem, t_stem, d_stem, anticodon_stem, t_loop, d_loop, anticodon_loop, v_loop)
 
     return t_stem # we'll just return this for now
 
@@ -196,8 +198,20 @@ def match(i, j): # we're temporarily working with sequences with T's instead of 
 
 #################################################################################
 
-def reformat(a_stem, t_stem, d_stem, anticodon_stem, t_loop, d_loop, anticodon_loop, v_loop):
+def reformat(sequence, a_stem, t_stem, d_stem, anticodon_stem, t_loop, d_loop, anticodon_loop, v_loop):
     
+    # A Stem
+    temp1 = ''
+    temp2 = ''
+    for i in range(0, 6):
+        temp1 += sequence[i]
+
+    temp2 += sequence[7]
+    temp2 += sequence[8]
+
+    # D Stem
+    
+    print("\033[1;35;40m" + temp1 + "\033[0m" + "\033[1;37;40m" + temp2 + "\033[0m")
 
 #################################################################################
 
