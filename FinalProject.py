@@ -62,8 +62,9 @@ def find_secondary_structure(gene):
     d_loop_length = [4, 11]
 
 #####################################A STEM#####################################
-    # TODO: we'll need some way to indicate that there is a mismatch in what we're
-    # saving in the stem information
+    # TODO: the output for the stems is of the form [low index, high index, 0/1 for no mismatch/yes mismatch]
+    # but we need to update where we assign these values for the input in each of these segments in order to
+    # properly have the third 0/1 business
 
     a_stem = []
     i = 0
@@ -72,7 +73,7 @@ def find_secondary_structure(gene):
 
     while(i < 7):
         if match(gene[i], gene[j]):
-            pair = [i, j]
+            pair = [i, j, 0]                # No mismatch = 0
             a_stem.append(pair)
             i += 1
             j -= 1
@@ -93,7 +94,7 @@ def find_secondary_structure(gene):
     reset_count = 1
     while(len(t_stem) < 5):
         if match(gene[i], gene[j]):
-            pair = [j, i]               # j, i because swapped for indices
+            pair = [j, i, 0]               # j, i because swapped for indices; no mismatch = 0
             t_stem.append(pair)
             i -= 1
             j += 1
@@ -120,7 +121,7 @@ def find_secondary_structure(gene):
     reset_count = 1
     while(len(d_stem) < 4):
         if match(gene[i], gene[j]):
-            pair = [i, j]
+            pair = [i, j, 0]                # No mismatch = 0
             d_stem.append(pair)
             i += 1
             j -= 1
@@ -148,7 +149,7 @@ def find_secondary_structure(gene):
     reset_count = 1
     while(len(anticodon_stem) < 5):
         if match(gene[i], gene[j]):
-            pair = [i, j]
+            pair = [i, j, 0]                # No mismatch = 0
             anticodon_stem.append(pair)
             i += 1
             j -= 1
@@ -200,19 +201,174 @@ def match(i, j): # we're temporarily working with sequences with T's instead of 
 
 def reformat(sequence, a_stem, t_stem, d_stem, anticodon_stem, t_loop, d_loop, anticodon_loop, v_loop):
     
-    # A Stem
-    temp1 = ''
-    temp2 = ''
-    for i in range(0, 6):
-        temp1 += sequence[i]
+    indexCount = 0
 
-    temp2 += sequence[7]
-    temp2 += sequence[8]
+    # A Stem (left)
+    nucleo1 = ''
+    nucleo2 = ''
+    style1 = ''
+    style2 = ''
 
-    # D Stem
+    for i in range(0, 7):
+        nucleo1 += sequence[i]
+        if(a_stem[i][2] == 0):
+            style1 += '('
+        else:
+            style1 += '.'
+        indexCount += 1
+    nucleo2 += sequence[7]
+    style2 += '.'
+    nucleo2 += sequence[8]
+    style2 += '.'
+    indexCount += 2
+
+    # D Stem (left)
+    nucleo3 = ''
+    style3 = ''
+    for i in range(indexCount, indexCount + len(d_stem)):
+        nucleo3 += sequence[i]
+        if(d_stem[i - indexCount][2] == 0):
+            style3 += '('
+        else:
+            style3 += '.'
+        indexCount += 1
     
-    print("\033[1;35;40m" + temp1 + "\033[0m" + "\033[1;37;40m" + temp2 + "\033[0m")
+    # D Loop
+    nucleo4 = ''
+    style4 = ''
+    for i in range(indexCount, indexCount + len(d_loop)):
+        nucleo4 += sequence[i]
+        style4 += '.'
+        indexCount += 1
 
+    # D Stem (right)
+    nucleo5 = ''
+    style5 = ''
+    for i in range(indexCount, indexCount + len(d_stem)):
+        nucleo5 += sequence[i]
+        if(d_stem[i - indexCount][2] == 0):
+            style5 += ')'
+        else:
+            style5 += '.'
+        indexCount += 1
+
+    # Gap between D Stem (right) and Anticodon Stem (left)
+    nucleo6 = ''
+    style6 = ''
+    for i in range(indexCount, anticodon_stem[0][0]):
+        nucleo6 += sequence[i]
+        style6 += '.'
+        indexCount += 1
+
+    # Anticodon Stem (left)
+    nucleo7 = ''
+    style7 = ''
+    for i in range(indexCount, indexCount + len(anticodon_stem)):
+        nucleo7 += sequence[i]
+        if(anticodon_stem[i - indexCount][2] == 0):
+            style7 += '('
+        else:
+            styel7 += '.'
+        indexCount += 1
+
+    # Anticodon Loop
+    nucleo8 = ''
+    style8 = ''
+    for i in range(indexCount, indexCount + len(anticodon_loop)):
+        nucleo8 += sequence[i]
+        style8 += '.'
+        indexCount += 1
+
+    # Anticodon Stem (right)
+    nucleo9 = ''
+    style9 = ''
+    for i in range(indexCount, indexCount + len(anticodon_stem)):
+        nucleo9 += sequence[i]
+        if(anticodon_stem[i - indexCount][2] == 0):
+            style9 += ')'
+        else:
+            style9 += '.'
+        indexCount += 1
+    
+    # V Loop
+    nucleo10 = ''
+    style10 = ''
+    for i in range(indexCount, indexCount + len(v_loop)):
+        nucleo10 += sequence[i]
+        style10 += '.'
+        indexCount += 1
+
+    # T Stem (left)
+    nucleo11 = ''
+    style11 = ''
+    for i in range(indexCount, indexCount + len(t_stem)):
+        nucleo11 += sequence[i]
+        if(t_stem[i - indexCount][2] == 0):
+            style11 += '('
+        else:
+            style11 += '.'
+        indexCount += 1
+
+    # T Loop
+    nucleo12 = ''
+    style12 = ''
+    for i in range(indexCount, indexCount + len(t_loop)):
+        nucleo12 += sequence[i]
+        style12 += '.'
+        indexCount += 1
+
+    # T Stem (right)
+    nucleo13 = ''
+    style13 = ''
+    for i in range(indexCount, indexCount + len(t_stem)):
+        nucleo13 += sequence[i]
+        if(t_stem[i - indexCount][2] == 0):
+            style13 += ')'
+        else:
+            style13 += '.'
+        indexCount += 1
+
+    # A Stem (right)
+    # T Stem (right)
+    nucleo14 = ''
+    style14 = ''
+    for i in range(indexCount, indexCount + len(a_stem)):
+        nucleo14 += sequence[i]
+        if(a_stem[i - indexCount][2] == 0):
+            style14 += ')'
+        else:
+            style14 += '.'
+        indexCount += 1
+
+    # Remaining Nucleotides
+    nucleo15 = ''
+    style15 = ''
+    for i in range(indexCount, len(sequence)):
+        nucleo15 += sequence[i]
+        style15 += '.'
+        indexCount += 1
+
+    # Print color-coded nucleotides
+    print("\033[1;35;40m" + nucleo1 + "\033[0m" +
+    nucleo2 + 
+    "\033[1;32;40m" + nucleo3 + "\033[0m"  + nucleo4 + "\033[1;32;40m" + nucleo5 + "\033[0m" +
+    nucleo6 +
+    "\033[1;31;40m" + nucleo7 + "\033[0m" + nucleo8 + "\033[1;31;40m" + nucleo9 + "\033[0m" +
+    nucleo10 +
+    "\033[1;34;40m" + nucleo11 + "\033[0m" + nucleo12 + "\033[1;34;40m" + nucleo13 + "\033[0m" +
+    "\033[1;35;40m" + nucleo14 + "\033[0m" +
+    nucleo15)
+    # Print color-coded match/mismatch stylization
+    print("\033[1;35;40m" + style1 + "\033[0m" +
+    style2 + 
+    "\033[1;32;40m" + style3 + "\033[0m"  + style4 + "\033[1;32;40m" + style5 + "\033[0m" +
+    style6 +
+    "\033[1;31;40m" + style7 + "\033[0m" + style8 + "\033[1;31;40m" + style9 + "\033[0m" +
+    style10 +
+    "\033[1;34;40m" + style11 + "\033[0m" + style12 + "\033[1;34;40m" + style13 + "\033[0m" +
+    "\033[1;35;40m" + style14 + "\033[0m" +
+    style15)
+    
 #################################################################################
 
 if __name__ == '__main__':
