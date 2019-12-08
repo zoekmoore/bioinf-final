@@ -196,6 +196,8 @@ def find_secondary_structure(sequence):
 '''
 match - a function that checks two nucleotides against one another to determine
 whether or not they are a match
+Parameter: first nucleotide
+Parameter: second nucleotide
 '''
 def match(i, j):
     if i == 'A':
