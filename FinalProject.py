@@ -5,9 +5,8 @@
 
 #################################################################################
 
-# This is the main function
 def main():
-    gene_list = read_genes()
+    gene_list = readSeq()
     results = []
     print(gene_list)
     for i in gene_list:
@@ -16,8 +15,11 @@ def main():
    
 #################################################################################
  
-# This reads genes from "FinalProject.txt" and stores them
-def read_genes():
+'''
+readSeq - a function that reads in the sequences from a FASTA formatted file
+and stores them in a list
+'''
+def readSeq():
     # File that contains FASTA formatted sequences
     database = "FinalProject.txt"
 
@@ -49,8 +51,13 @@ def read_genes():
         gene_list.append("".join(current_gene))
     return gene_list
 
-# This function finds the secondary structure of an RNA sequence
-def find_secondary_structure(gene):
+'''
+find_secondary_structure - a function that follows biological conventions
+to predict the secondary structure of tRNA sequences
+Parameter: a given sequence that we are trying to predict the secondary
+structure for
+'''
+def find_secondary_structure(sequence):
     # The following 8 variables are our region parameters
     a_stem_length = 7
     d_stem_length = [3, 4]
@@ -63,30 +70,30 @@ def find_secondary_structure(gene):
 
     structure = True                # Assume it has a secondary structure until it doesn't
 
-#####################################A STEM#####################################
+##################################### A STEM #####################################
     # TODO: the output for the stems is of the form [low index, high index, 0/1 for no mismatch/yes mismatch]
     # but we need to update where we assign these values for the input in each of these segments in order to
     # properly have the third 0/1 business
 
     a_stem = []
     i = 0
-    j = len(gene) - 1
+    j = len(sequence) - 1
     reset_count = 1
 
     while(i < 7):
-        if match(gene[i], gene[j]):
+        if match(sequence[i], sequence[j]):
             pair = [i, j, 0]                # No mismatch = 0
             a_stem.append(pair)
             i += 1
             j -= 1
         else:
             i = 0
-            j = len(gene) - 1 - reset_count
+            j = len(sequence) - 1 - reset_count
             a_stem = []
             reset_count += 1
     print("A STEM: " + str(a_stem))
 
-################################T STEM & T LOOP#################################
+################################ T STEM & T LOOP #################################
 
     t_stem = []
     temp_i = j
@@ -95,7 +102,7 @@ def find_secondary_structure(gene):
     j = temp_j
     reset_count = 1
     while(len(t_stem) < 5):
-        if match(gene[i], gene[j]):
+        if match(sequence[i], sequence[j]):
             pair = [j, i, 0]               # j, i because swapped for indices; no mismatch = 0
             t_stem.append(pair)
             i -= 1
@@ -113,7 +120,7 @@ def find_secondary_structure(gene):
     print("T STEM: " + str(t_stem))
     print("T LOOP: " + str(t_loop))
 
-################################D STEM & D LOOP#################################
+################################ D STEM & D LOOP #################################
 
     d_stem = []
     temp_i = 9
@@ -122,7 +129,7 @@ def find_secondary_structure(gene):
     j = temp_j
     reset_count = 1
     while(len(d_stem) < 4):
-        if match(gene[i], gene[j]):
+        if match(sequence[i], sequence[j]):
             pair = [i, j, 0]                # No mismatch = 0
             d_stem.append(pair)
             i += 1
@@ -141,7 +148,7 @@ def find_secondary_structure(gene):
     print("D STEM: " + str(d_stem))
     print("D LOOP: " + str(d_loop))
 
-########################ANTICODON STEM & ANTICODON LOOP#########################
+######################## ANTICODON STEM & ANTICODON LOOP #########################
 
     anticodon_stem = []
     temp_i = len(a_stem) + 2 + len(d_stem) * 2 + len(d_loop) + 1
@@ -150,7 +157,7 @@ def find_secondary_structure(gene):
     j = temp_j
     reset_count = 1
     while(len(anticodon_stem) < 5):
-        if match(gene[i], gene[j]):
+        if match(sequence[i], sequence[j]):
             pair = [i, j, 0]                # No mismatch = 0
             anticodon_stem.append(pair)
             i += 1
@@ -167,7 +174,7 @@ def find_secondary_structure(gene):
     print("ANTICODON STEM: " + str(anticodon_stem))
     print("ANTICODON LOOP: " + str(anticodon_loop))
 
-#####################################V LOOP#####################################
+##################################### V LOOP #####################################
 
     v_loop = []
     j += 6
@@ -178,7 +185,7 @@ def find_secondary_structure(gene):
 
     # Call a function to output results
     if(structure == True):
-        outputResults(gene, a_stem, t_stem, d_stem, anticodon_stem, t_loop, d_loop, anticodon_loop, v_loop)
+        outputResults(sequence, a_stem, t_stem, d_stem, anticodon_stem, t_loop, d_loop, anticodon_loop, v_loop)
     else:
         print("NO SECONDARY STRUCTURE")     # FIX THIS SO IT SAYS SOMETHING BETTER
 
@@ -186,7 +193,10 @@ def find_secondary_structure(gene):
 
 #################################################################################
 
-# this is a "lazy" match function which we'll improve upon
+'''
+match - a function that checks two nucleotides against one another to determine
+whether or not they are a match
+'''
 def match(i, j):
     if i == 'A':
         if j == 'U':
@@ -204,6 +214,14 @@ def match(i, j):
 
 #################################################################################
 
+'''
+outputResults - a function that, if a valid secondary structure is found,
+takes the results of the pairing and outputs them in a color-coded, labeled
+fashion
+Parameter: the sequence that we are trying to predict the secondary structure
+Parameters: the predicted stems, in the form [first index, second index, (0/1)match/mismatch]
+Parameters: the predicted loops, listing the indices of the loop's nucleotides
+'''
 def outputResults(sequence, a_stem, t_stem, d_stem, anticodon_stem, t_loop, d_loop, anticodon_loop, v_loop):
     
     indexCount = 0
