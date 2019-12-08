@@ -61,6 +61,8 @@ def find_secondary_structure(gene):
     anticodon_loop_length = 7
     d_loop_length = [4, 11]
 
+    structure = True                # Assume it has a secondary structure until it doesn't
+
 #####################################A STEM#####################################
     # TODO: the output for the stems is of the form [low index, high index, 0/1 for no mismatch/yes mismatch]
     # but we need to update where we assign these values for the input in each of these segments in order to
@@ -174,15 +176,18 @@ def find_secondary_structure(gene):
         j += 1
     print("V LOOP: " + str(v_loop))
 
-    # Call a function to reformat the structure
-    outputResults(gene, a_stem, t_stem, d_stem, anticodon_stem, t_loop, d_loop, anticodon_loop, v_loop)
+    # Call a function to output results
+    if(structure == True):
+        outputResults(gene, a_stem, t_stem, d_stem, anticodon_stem, t_loop, d_loop, anticodon_loop, v_loop)
+    else:
+        print("NO SECONDARY STRUCTURE")     # FIX THIS SO IT SAYS SOMETHING BETTER
 
     return t_stem # we'll just return this for now
 
 #################################################################################
 
 # this is a "lazy" match function which we'll improve upon
-def match(i, j): # we're temporarily working with sequences with T's instead of U's --> we can easily change this later
+def match(i, j):
     if i == 'A':
         if j == 'U':
             return True
@@ -357,6 +362,10 @@ def outputResults(sequence, a_stem, t_stem, d_stem, anticodon_stem, t_loop, d_lo
     print("\tLoops & Etc.\n\n")
     # Print color-coded nucleotides
     print("\033[1;37;40m SEQUENCE: \033[0m")
+    whitespace = "  1"
+    for i in range(1, len(sequence) - 1):
+        whitespace += " "
+    print(whitespace + str(len(sequence)))
     print("  \033[1;35;40m" + nucleo1 + "\033[0m" +
     nucleo2 + 
     "\033[1;32;40m" + nucleo3 + "\033[0m"  + nucleo4 + "\033[1;32;40m" + nucleo5 + "\033[0m" +
