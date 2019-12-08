@@ -210,6 +210,12 @@ def match(i, j):
     if i == 'G':
         if j == 'C':
             return True
+    if i == 'U':
+        if j == 'G':
+            return True
+    if i == 'G':
+        if j == 'U':
+            return True
     return False # if not a match, return false
 
 #################################################################################
