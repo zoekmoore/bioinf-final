@@ -437,7 +437,7 @@ def outputResults(sequence, a_stem, t_stem, d_stem, anticodon_stem, t_loop, d_lo
     # T Loop
     nucleo12 = ''
     style12 = ''
-    for i in range(indexCount, indexCount + len(t_loop)):
+    for i in range(indexCount, indexCount + len(t_loop) - 1):
         nucleo12 += sequence[i]
         style12 += '.'
         indexCount += 1

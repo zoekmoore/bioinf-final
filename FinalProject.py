@@ -10,7 +10,7 @@ def main():
     results = []
     print(gene_list)
     for i in gene_list:
-        results.append(find_secondary_structure("GGGUCGUUAGCUCAGUUGGUAGAGCAAUUGACUUUUAAUCAAUUGGUCGCAGGUUCGAAUCCUGCACGACCCACCA"))
+        results.append(find_secondary_structure(i))
     #write_alignments(results)
    
 #################################################################################
