@@ -350,9 +350,10 @@ def outputResults(sequence, a_stem, t_stem, d_stem, anticodon_stem, t_loop, d_lo
     # D Stem (left)
     nucleo3 = ''
     style3 = ''
+    temp = indexCount
     for i in range(indexCount, indexCount + len(d_stem)):
         nucleo3 += sequence[i]
-        if(d_stem[i - indexCount][2] == 0):
+        if(d_stem[i - temp][2] == 0):
             style3 += '('
         else:
             style3 += '.'
@@ -369,9 +370,10 @@ def outputResults(sequence, a_stem, t_stem, d_stem, anticodon_stem, t_loop, d_lo
     # D Stem (right)
     nucleo5 = ''
     style5 = ''
+    temp = indexCount
     for i in range(indexCount, indexCount + len(d_stem)):
         nucleo5 += sequence[i]
-        if(d_stem[i - indexCount][2] == 0):
+        if(d_stem[i - temp][2] == 0):
             style5 += ')'
         else:
             style5 += '.'
@@ -388,9 +390,10 @@ def outputResults(sequence, a_stem, t_stem, d_stem, anticodon_stem, t_loop, d_lo
     # Anticodon Stem (left)
     nucleo7 = ''
     style7 = ''
+    temp = indexCount
     for i in range(indexCount, indexCount + len(anticodon_stem)):
         nucleo7 += sequence[i]
-        if(anticodon_stem[i - indexCount][2] == 0):
+        if(anticodon_stem[i - temp][2] == 0):
             style7 += '('
         else:
             styel7 += '.'
@@ -407,9 +410,10 @@ def outputResults(sequence, a_stem, t_stem, d_stem, anticodon_stem, t_loop, d_lo
     # Anticodon Stem (right)
     nucleo9 = ''
     style9 = ''
+    temp = indexCount
     for i in range(indexCount, indexCount + len(anticodon_stem)):
         nucleo9 += sequence[i]
-        if(anticodon_stem[i - indexCount][2] == 0):
+        if(anticodon_stem[i - temp][2] == 0):
             style9 += ')'
         else:
             style9 += '.'
@@ -426,9 +430,10 @@ def outputResults(sequence, a_stem, t_stem, d_stem, anticodon_stem, t_loop, d_lo
     # T Stem (left)
     nucleo11 = ''
     style11 = ''
+    temp = indexCount
     for i in range(indexCount, indexCount + len(t_stem)):
         nucleo11 += sequence[i]
-        if(t_stem[i - indexCount][2] == 0):
+        if(t_stem[i - temp][2] == 0):
             style11 += '('
         else:
             style11 += '.'
@@ -437,7 +442,7 @@ def outputResults(sequence, a_stem, t_stem, d_stem, anticodon_stem, t_loop, d_lo
     # T Loop
     nucleo12 = ''
     style12 = ''
-    for i in range(indexCount, indexCount + len(t_loop) - 1):
+    for i in range(indexCount, indexCount + len(t_loop) - 1):       # IN ORDER FOR ANDREW'S VERSION TO CORRECTLY PRINT COLORS, ADDED A -1 TO THIS   
         nucleo12 += sequence[i]
         style12 += '.'
         indexCount += 1
@@ -445,21 +450,22 @@ def outputResults(sequence, a_stem, t_stem, d_stem, anticodon_stem, t_loop, d_lo
     # T Stem (right)
     nucleo13 = ''
     style13 = ''
+    temp = indexCount
     for i in range(indexCount, indexCount + len(t_stem)):
         nucleo13 += sequence[i]
-        if(t_stem[i - indexCount][2] == 0):
+        if(t_stem[i - temp][2] == 0):
             style13 += ')'
         else:
             style13 += '.'
         indexCount += 1
 
     # A Stem (right)
-    # T Stem (right)
     nucleo14 = ''
     style14 = ''
+    temp = indexCount
     for i in range(indexCount, indexCount + len(a_stem)):
         nucleo14 += sequence[i]
-        if(a_stem[i - indexCount][2] == 0):
+        if(a_stem[i - temp][2] == 0):
             style14 += ')'
         else:
             style14 += '.'
