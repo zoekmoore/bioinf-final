@@ -74,7 +74,6 @@ def find_secondary_structure(sequence):
         sequence = sequence[:-1]
 
     structure = True                # Assume it has a secondary structure until it doesn't
-    #TODO do we want this?
 
 #################################### A STEM ####################################
 
@@ -130,7 +129,6 @@ def find_secondary_structure(sequence):
             j = len(sequence) - 1
             allowed_mismatches += 1
             reset_count = 1
-    print("A STEM: " + str(a_stem))
 
 ############################### T STEM & T LOOP ################################
 
@@ -197,8 +195,6 @@ def find_secondary_structure(sequence):
     while (j <= i):
         t_loop.append(j)
         j += 1
-    print("T STEM: " + str(t_stem))
-    print("T LOOP: " + str(t_loop))
 
 ############################### D STEM & D LOOP ################################
 
@@ -265,8 +261,6 @@ def find_secondary_structure(sequence):
     while (i < j):
         d_loop.append(i)
         i += 1
-    print("D STEM: " + str(d_stem))
-    print("D LOOP: " + str(d_loop))
 
 ####################### ANTICODON STEM & ANTICODON LOOP ########################
 
@@ -330,8 +324,6 @@ def find_secondary_structure(sequence):
     while (i <= j):
         anticodon_loop.append(i)
         i += 1
-    print("ANTICODON STEM: " + str(anticodon_stem))
-    print("ANTICODON LOOP: " + str(anticodon_loop))
 
 #################################### V LOOP ####################################
 
@@ -341,9 +333,7 @@ def find_secondary_structure(sequence):
     while (j <= v_max):
         v_loop.append(j)
         j += 1
-    print("V LOOP: " + str(v_loop))
 
-    return
     # Call a function to output results
     if(structure == True):
         outputResults(sequence, a_stem, t_stem, d_stem, anticodon_stem, t_loop, d_loop, anticodon_loop, v_loop)
@@ -435,14 +425,15 @@ def outputResults(sequence, a_stem, t_stem, d_stem, anticodon_stem, t_loop, d_lo
     # D Stem (right)
     nucleo5 = ''
     style5 = ''
-    temp = indexCount
+    temp = 3
     for i in range(indexCount, indexCount + len(d_stem)):
         nucleo5 += sequence[i]
-        if(d_stem[i - temp][2] == 0):
+        if(d_stem[temp][2] == 0):
             style5 += ')'
         else:
             style5 += '.'
         indexCount += 1
+        temp -= 1
 
     # Gap between D Stem (right) and Anticodon Stem (left)
     nucleo6 = ''
@@ -475,14 +466,15 @@ def outputResults(sequence, a_stem, t_stem, d_stem, anticodon_stem, t_loop, d_lo
     # Anticodon Stem (right)
     nucleo9 = ''
     style9 = ''
-    temp = indexCount
+    temp = 4
     for i in range(indexCount, indexCount + len(anticodon_stem)):
         nucleo9 += sequence[i]
-        if(anticodon_stem[i - temp][2] == 0):
+        if(anticodon_stem[temp][2] == 0):
             style9 += ')'
         else:
             style9 += '.'
         indexCount += 1
+        temp -= 1
     
     # V Loop
     nucleo10 = ''
@@ -507,7 +499,7 @@ def outputResults(sequence, a_stem, t_stem, d_stem, anticodon_stem, t_loop, d_lo
     # T Loop
     nucleo12 = ''
     style12 = ''
-    for i in range(indexCount, indexCount + len(t_loop) - 1):       # IN ORDER FOR ANDREW'S VERSION TO CORRECTLY PRINT COLORS, ADDED A -1 TO THIS   
+    for i in range(indexCount, indexCount + len(t_loop)):       # IN ORDER FOR ANDREW'S VERSION TO CORRECTLY PRINT COLORS, ADDED A -1 TO THIS   
         nucleo12 += sequence[i]
         style12 += '.'
         indexCount += 1
@@ -515,26 +507,28 @@ def outputResults(sequence, a_stem, t_stem, d_stem, anticodon_stem, t_loop, d_lo
     # T Stem (right)
     nucleo13 = ''
     style13 = ''
-    temp = indexCount
+    temp = 4
     for i in range(indexCount, indexCount + len(t_stem)):
         nucleo13 += sequence[i]
-        if(t_stem[i - temp][2] == 0):
+        if(t_stem[temp][2] == 0):
             style13 += ')'
         else:
             style13 += '.'
         indexCount += 1
+        temp -= 1
 
     # A Stem (right)
     nucleo14 = ''
     style14 = ''
-    temp = indexCount
+    temp = 6
     for i in range(indexCount, indexCount + len(a_stem)):
         nucleo14 += sequence[i]
-        if(a_stem[i - temp][2] == 0):
+        if(a_stem[temp][2] == 0):
             style14 += ')'
         else:
             style14 += '.'
         indexCount += 1
+        temp -= 1
 
     # Remaining Nucleotides
     nucleo15 = ''
@@ -545,7 +539,7 @@ def outputResults(sequence, a_stem, t_stem, d_stem, anticodon_stem, t_loop, d_lo
         indexCount += 1
 
     # Print Key
-    print("\033[1;37;40m KEY: \033[0m")
+    print("\n\n\033[1;37;40m KEY: \033[0m")
     print("\t\033[1;35;40m" + "A Stem" + "\033[0m")
     print("\t\033[1;32;40m" + "D Stem" + "\033[0m")
     print("\t\033[1;31;40m" + "Anticodon Stem" + "\033[0m")
@@ -553,11 +547,11 @@ def outputResults(sequence, a_stem, t_stem, d_stem, anticodon_stem, t_loop, d_lo
     print("\tLoops & Etc.\n\n")
     # Print color-coded nucleotides
     print("\033[1;37;40m SEQUENCE: \033[0m")
-    whitespace = "  1"
+    whitespace = " 1"
     for i in range(1, len(sequence) - 1):
         whitespace += " "
     print(whitespace + str(len(sequence)))
-    print("  \033[1;35;40m" + nucleo1 + "\033[0m" +
+    print(" \033[1;35;40m" + nucleo1 + "\033[0m" +
     nucleo2 + 
     "\033[1;32;40m" + nucleo3 + "\033[0m"  + nucleo4 + "\033[1;32;40m" + nucleo5 + "\033[0m" +
     nucleo6 +
@@ -568,7 +562,7 @@ def outputResults(sequence, a_stem, t_stem, d_stem, anticodon_stem, t_loop, d_lo
     nucleo15)
     # Print color-coded match/mismatch stylization
     print("\033[1;37;40m FOLDING: \033[0m")
-    print("  \033[1;35;40m" + style1 + "\033[0m" +
+    print(" \033[1;35;40m" + style1 + "\033[0m" +
     style2 + 
     "\033[1;32;40m" + style3 + "\033[0m"  + style4 + "\033[1;32;40m" + style5 + "\033[0m" +
     style6 +

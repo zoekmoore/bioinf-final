@@ -115,7 +115,6 @@ def find_secondary_structure(sequence):
             j = len(sequence) - 1
             allowed_mismatches += 1
             reset_count = 1
-    print("A STEM: " + str(a_stem))
 
 ############################### T STEM & T LOOP ################################
 
@@ -165,8 +164,6 @@ def find_secondary_structure(sequence):
     while (j <= i):
         t_loop.append(j)
         j += 1
-    print("T STEM: " + str(t_stem))
-    print("T LOOP: " + str(t_loop))
 
 ############################### D STEM & D LOOP ################################
 
@@ -216,8 +213,6 @@ def find_secondary_structure(sequence):
     while (i <= j):
         d_loop.append(i)
         i += 1
-    print("D STEM: " + str(d_stem))
-    print("D LOOP: " + str(d_loop))
 
 ####################### ANTICODON STEM & ANTICODON LOOP ########################
 
@@ -265,8 +260,6 @@ def find_secondary_structure(sequence):
     while (i <= j):
         anticodon_loop.append(i)
         i += 1
-    print("ANTICODON STEM: " + str(anticodon_stem))
-    print("ANTICODON LOOP: " + str(anticodon_loop))
 
 #################################### V LOOP ####################################
 
@@ -275,7 +268,6 @@ def find_secondary_structure(sequence):
     while (j <= v_max):
         v_loop.append(j)
         j += 1
-    print("V LOOP: " + str(v_loop))
 
     # Call a function to output results
     if(structure == True):
@@ -480,7 +472,7 @@ def outputResults(sequence, a_stem, t_stem, d_stem, anticodon_stem, t_loop, d_lo
         indexCount += 1
 
     # Print Key
-    print("\033[1;37;40m KEY: \033[0m")
+    print("\n\n\033[1;37;40m KEY: \033[0m")
     print("\t\033[1;35;40m" + "A Stem" + "\033[0m")
     print("\t\033[1;32;40m" + "D Stem" + "\033[0m")
     print("\t\033[1;31;40m" + "Anticodon Stem" + "\033[0m")
